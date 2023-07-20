@@ -1,0 +1,74 @@
+Anthropic releases Claude 2, its second-gen AI chatbot
+cameraImage Credits: Anthropic
+Anthropic, the AI startup co-founded by ex-OpenAI execs, today announced the release of a new text-generating AI model, Claude 2.
+The successor to Anthropic’s first commercial model, Claude 2 is available in beta starting today in the U.S. and U.K. both on the web and via a paid API (in limited access). The API pricing hasn’t changed (~$0.0465 to generate 1,000 words), and several businesses have already begun piloting Claude 2, including the generative AI platform Jasper and Sourcegraph.
+“We believe that it’s important to deploy these systems to the market and understand how people actually use them,” Sandy Banerjee, the head of go-to-market at Anthropic, told TechCrunch in a phone interview. “We monitor how they’re used, how we can improve performance, as well as capacity — all those things.”
+Like the old Claude (Claude 1.3), Claude 2 can search across documents, summarize, write and code and answer questions about particular topics. But Anthropic claims that Claude 2 — which TechCrunch wasn’t given the opportunity to test prior to its rollout — is superior in several areas.
+For instance, Claude 2 scores slightly higher on a multiple choice section of the bar exam (76.5% versus Claude 1.3’s 73%). It’s capable of passing the multiple choice portion of the U.S. Medical Licensing Exam. And it’s a stronger programmer, achieving 71.2% on the Codex Human Level Python coding test compared to Claude 1.3’s 56%.
+Claude 2 can also answer more math problems correctly, scoring 88% on the GSM8K collection of grade-school-level problems — 2.8 percentage points higher than Claude 1.3.
+“We’ve been working on improving the reasoning and sort of self-awareness of the model, so it’s more aware of, ‘here’s how I like follow instructions,’ ‘I’m able to process multi-step instructions’ and also more aware of its limitations,” Banerjee said.
+Claude 2 was trained on more recent data — a mix of websites, licensed data sets from third parties and voluntarily-supplied user data from early 2023, roughly 10% of which is non-English — than Claude 1.3, which likely contributed to the improvements. (Unlike OpenAI’s GPT-4, Claude 2 can’t search the web.) But the models aren’t that different architecturally — Banerjee characterized Claude 2 as a tweaked version of Claude 1.3, the product of two or so years of work, rather than a new creation.
+“Claude 2 isn’t vastly changed from the last model — it’s a product of our continuous iterative approach to model development,” she said. “We’re constantly training the model … and monitoring and evaluating the performance of it.”
+To wit, Claude 2 features a context window that’s the same size of Claude 1.3’s — 100,000 tokens. Context window refers to the text the model considers before generating additional text, while tokens represent raw text (e.g. the word “fantastic” would be split into the tokens “fan,” “tas” and “tic”).
+Indeed, 100,000 tokens is still quite large — the largest of any commercially available model — and gives Claude 2 a number of key advantages. Generally speaking, models with small context windows tend to “forget” the content of even very recent conversations. Moreover, large context windows enable models to generate — and ingest — much more text. Claude 2 can analyze roughly 75,000 words, about the length of “The Great Gatsby,” and generate 4,000 tokens, or around 3,125 words.
+Claude 2 can theoretically support an even larger context window — 200,000 tokens — but Anthropic doesn’t plan to support this at launch.
+The model’s better at specific text-processing tasks elsewhere, like producing correctly-formatted outputs in JSON, XML, YAML and markdown formats.
+But what about the areas where Claude 2 falls short? After all, no model’s perfect. See Microsoft’s AI-powered Bing Chat, which at launch was an emotionally manipulative liar.
+Indeed, even the best models today suffer from hallucination, a phenomenon where they’ll respond to questions in irrelevant, nonsensical or factually incorrect ways. They’re also prone to generating toxic text, a reflection of the biases in the data used to train them — mostly web pages and social media posts.
+Users were able to prompt an older version of Claude to invent a name for a nonexistent chemical and provide dubious instructions for producing weapons-grade uranium. They also got around Claude’s built-in safety features via clever prompt engineering, with one user showing that they could prompt Claude to describe how to make meth at home.
+Anthropic says that Claude 2 is “2x better” at giving “harmless” responses compared to Claude 1.3 on an internal evaluation. But it’s not clear what that metric means. Is Claude 2 two times less likely to respond with sexism or racism? Two times less likely to endorse violence or self-harm? Two times less likely to generate misinformation or disinformation? Anthropic wouldn’t say — at least not directly.
+A whitepaper Anthropic released this morning gives some clues.
+In a test to gauge harmfulness, Anthropic fed 328 different prompts to the model, including “jailbreak” prompts released online. In at least one case, a jailbreak caused Claude 2 to generate a harmful response — less than Claude 1.3, but still significant when considering how many millions of prompts the model might respond to in production.
+The whitepaper also shows that Claude 2 is less likely to give biased responses than Claude 1.3 on at least one metric. But the Anthropic coauthors admit that part of the improvement is due to Claude 2 refusing to answer contentious questions worded in ways that seem potentially problematic or discriminatory.
+Revealingly, Anthropic advises against using Claude 2 for applications “where physical or mental health and well-being are involved” or in “high stakes situations where an incorrect answer would cause harm.” Take that how you will.
+“[Our] internal red teaming evaluation scores our models on a very large representative set of harmful adversarial prompts,” Banerjee said when pressed for details, “and we do this with a combination of automated tests and manual checks.”
+Anthropic wasn’t forthcoming about which prompts, tests and checks it uses for benchmarking purposes, either. And the company was relatively vague on the topic of data regurgitation, where models occasionally paste data verbatim from their training data — including text from copyrighted sources in some cases.
+AI model regurgitation is the focus of several pending legal cases, including one recently filed by comedian and author Sarah Silverman against OpenAI and Meta. Understandably, it has some brands wary about liability.
+“Training data regurgitation is an active area of research across all foundation models, and many developers are exploring ways to address it while maintaining an AI system’s ability to provide relevant and useful responses,” Silverman said. “There are some generally accepted techniques in the field, including de-duplication of training data, which has been shown to reduce the risk of reproduction. In addition to the data side, Anthropic employs a variety of technical tools throughout model development, from … product-layer detection to controls.”
+One catch-all technique the company continues to trumpet is “constitutional AI,” which aims to imbue models like Claude 2 with certain “values” defined by a “constitution.”
+Constitutional AI, which Anthropic itself developed, gives a model a set of principles to make judgments about the text it generates. At a high level, these principles guide the model to take on the behavior they describe — e.g. “nontoxic” and “helpful.”
+Anthropic claims that, thanks to constitutional AI, Claude 2’s behavior is both easier to understand and simpler to adjust as needed compared to other models. But the company also acknowledges that constitutional AI isn’t the end-all be-all of training approaches. Anthropic developed many of the principles guiding Claude 2 through a “trial-and-error” process, it says, and has had to make repeated adjustments to prevent its models from being too “judgmental” or “annoying.”
+In the whitepaper, Anthropic admits that, as Claude becomes more sophisticated, it’s becoming increasingly difficult to predict the model’s behavior in all scenarios.
+“Over time, the data and influences that determine Claude’s ‘personality’ and capabilities have become quite complex,” the whitepaper reads. “It’s become a new research problem for us to balance these factors, track them in a simple, automatable way and generally reduce the complexity of training Claude.”
+Eventually, Anthropic plans to explore ways to make the constitution customizable — to a point. But it hasn’t reached that stage of the product development roadmap yet.
+“We’re still working through our approach,” Banerjee said. “We need to make sure, as we do this, that the model ends up as harmless and helpful as the previous iteration.”
+As we’ve reported previously, Anthropic’s ambition is to create a “next-gen algorithm for AI self-teaching,” as it describes it in a pitch deck to investors. Such an algorithm could be used to build virtual assistants that can answer emails, perform research and generate art, books and more — some of which we’ve already gotten a taste of with the likes of GPT-4 and other large language models.
+Claude 2 is a step toward this — but not quite there.
+Anthropic competes with OpenAI as well as startups such as Cohere and AI21 Labs, all of which are developing and productizing their own text-generating — and in some cases image-generating — AI systems. Google is among the company’s investors, having pledged $300 million in Anthropic for a 10% stake in the startup. The others are Spark Capital, Salesforce Ventures, Zoom Ventures, Sound Ventures, Menlo Ventures the Center for Emerging Risk Research and a medley of undisclosed VCs and angels.
+To date, Anthropic, which launched in 2021, led by former OpenAI VP of research Dario Amodei, has raised $1.45 billion at a valuation in the single-digit billions. While that might sound like a lot, it’s far short of what the company estimates it’ll need — $5 billion over the next two years — to create its envisioned chatbot.
+Most of the cash will go toward compute. Anthropic implies in the deck that it relies on clusters with “tens of thousands of GPUs” to train its models, and that it’ll require roughly a billion dollars to spend on infrastructure in the next 18 months alone.
+Launching early models in beta solves the dual purpose of helping to further development while generating incremental revenue. In addition to through its own API, Anthropic plans to make Claude 2 available through Bedrock, Amazon’s generative AI hosting platform, in the coming months.
+Aiming to tackle the generative AI market from all sides, Anthropic continues to offer a faster, less costly derivative of Claude called Claude Instant. The focus appears to be on the flagship Claude model, though — Claude Instant hasn’t received a major upgrade since March.
+Anthropic claims to have “thousands” of customers and partners currently, including Quora, which delivers access to Claude through its subscription-based generative AI app Poe. Claude powers DuckDuckGo’s recently launched DuckAssist tool, which directly answers straightforward search queries for users, in combination with OpenAI’s ChatGPT. And on Notion, Claude is a part of the technical backend for Notion AI, an AI writing assistant integrated with the Notion workspace.
+More TechCrunch
+Theranos founder Elizabeth Holmes isn't headed to jail tomorrow after all
+OnlyFans CEO Ami Gan steps down
+Adobe says Firefly has now generated 1B images, takes it global
+Create context and provide examples to lower AI adoption barriers
+Please login to comment
+TechCrunch Disrupt
+Sign up for Newsletters
+See all newsletters(opens in a new window)
+Tags
+Anthropic releases Claude 2, its second-gen AI chatbot
+TechCrunch+ Roundup: Firing yourself as CEO, board deck basics, venture debt explained
+Thousands of authors sign letter urging AI makers to stop stealing books
+Twitter to support long-form articles with mixed media, Elon Musk confirms
+What to do when customers say yes but VCs say no with Catherine Tabor from Sparkly
+What’s going on with Greenwood and The Gathering Spot?
+Framework Laptop 16 now available for pre-order, starting at $1,399
+Plex’s Winamp-inspired music player Plexamp is now free
+Cognaize raises $18M to build a better LLM for the finance sector, one that keeps humans in the loop
+Telegram raises $210 million through bond sales
+Tesla Q2 2023 earnings expectations: Cybertruck news and price cut effects
+Can insurtech recover from the ‘death of insurtech 1.0’?
+Microsoft brings Bing Chat to the enterprise
+Microsoft launches vector search in preview, voice cloning in general availability
+WordPress Playground lets you run WordPress entirely in your browser
+Apple and Amazon fined $218M for ‘brand gating’ in Spanish antitrust finding
+Mark Zuckerberg touts Threads is seeing ‘tens of millions’ people return to the app daily
+OnlyFans CEO Ami Gan steps down
+Smartphone shipments continue to decline as secondhand and premium markets thrives
+YouTube testing a new way for users to easily watch videos at 2x speed
+Apple won’t have to allow third-party payments on App Store as case goes to Supreme Court
+© 2023 Yahoo.All rights reserved.Powered by WordPress VIP(opens in a new window).

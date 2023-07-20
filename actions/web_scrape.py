@@ -56,6 +56,11 @@ async def async_browse(url: str, question: str, websocket: WebSocket) -> str:
         await loop.run_in_executor(executor, add_header, driver)
         summary_text = await loop.run_in_executor(executor, summary.summarize_text, url, text, question, driver)
 
+        with open(f"BEFORE/pages/{url.replace('/', '-')}.html", "w") as f:
+            f.write(text)
+        with open(f"BEFORE/summaries/{url.replace('/', '-')}.html", "w") as f:
+            f.write(summary_text)
+
         await websocket.send_json(
             {"type": "logs", "output": f"📝 Information gathered from url {url}: {summary_text}"})
 
@@ -134,7 +139,8 @@ def scrape_text_with_selenium(url: str) -> tuple[WebDriver, str]:
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--remote-debugging-port=9222")
         options.add_argument("--no-sandbox")
-        service = Service(executable_path=ChromeDriverManager().install())
+        service = Service(ChromeDriverManager(version="114.0.5735.90").install())
+        # service = Service(executable_path=ChromeDriverManager().install())
         driver = webdriver.Chrome(
             service=service, options=options
         )
@@ -158,7 +164,6 @@ def scrape_text_with_selenium(url: str) -> tuple[WebDriver, str]:
     chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
     text = "\n".join(chunk for chunk in chunks if chunk)
     return driver, text
-
 
 def get_text(soup):
     """Get the text from the soup

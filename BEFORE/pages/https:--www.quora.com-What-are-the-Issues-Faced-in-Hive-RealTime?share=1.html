@@ -1,0 +1,13 @@
+Something went wrong. Wait a moment and try again.
+Hive is a blockchain-based social media
+The issues which i face working real time are basically:
+1: KyroSerialization Buffer overflow:- Hive/Spark comes with default serializer and to serialize parquet and Avro Kyro is the preferred one so we have to set this property in configration file.
+2. In my project we created DDL's with Hive and inserted data through Spark and when we moved from EMR 3.9 to 4.4, Spark Parquet serDe stooped supporting hive and we were not able to fetch data from hive shell. I am currently working on this issue, my understanding is to replace the JAR with the comapatible one.
+3. Performance optimization: we need t
+The issues which i face working real time are basically:
+1: KyroSerialization Buffer overflow:- Hive/Spark comes with default serializer and to serialize parquet and Avro Kyro is the preferred one so we have to set this property in configration file.
+2. In my project we created DDL's with Hive and inserted data through Spark and when we moved from EMR 3.9 to 4.4, Spark Parquet serDe stooped supporting hive and we were not able to fetch data from hive shell. I am currently working on this issue, my understanding is to replace the JAR with the comapatible one.
+3. Performance optimization: we need to optimize queries as well as the hive config file as per your cluster. I am working on 7 nodes, 16 core, 128 GB cluster.
+I will add a few more as soon as i remember anything else.
+Some of the issues with hive during my project were:
+Main issue would be Datatype Casting compatibility issues

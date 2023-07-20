@@ -1,0 +1,291 @@
+Meta AI's New Breakthrough: Segment Anything Model (SAM) Explained
+Contents
+A Brief History of Meta's AI & Computer Vision
+Comparing Segment Anything Model to Previous Models
+Dive into SAM's Network Architecture and Design
+A Quick Guide to the Segment Anything Model’s Structure
+Is Segment Anything Model Open Source?
+How to Fine-Tune Segment Anything Model (SAM)
+How to Use the Segment Anything Model for AI-Assisted Labeling
+Real-World Use Cases and Applications
+Where Does This Leave Us?
+Frequently Asked Questions on Segment Anything Model (SAM)
+If you thought the AI space was already moving fast with ChatGPT, GPT4, and Stable Diffusion, then strap in and get ready for the next groundbreaking innovation in AI.
+Meta’s FAIR lab has just released the Segment Anything Model (SAM), a state-of-the-art image segmentation model that aims to change the field of computer vision.
+SAM is based on foundation models that have had a significant impact on natural language processing (NLP). It focuses on promptable segmentation tasks, using prompt engineering to adapt to diverse downstream segmentation problems.
+Why are we so excited about SAM?
+Having tested it out for a day now, we can see the following incredible advances:
+In this blog post, you will:
+Update: Do you want to eliminate manual segmentation? Learn how to use the Segment Anything Model (SAM) to reduce labeling costs with Encord! Read the product announcement, or go straight to a free trial! You can also check out our tutorial on how to fine-tune Segment Anything here.
+A Brief History of Meta's AI & Computer Vision
+As one of the leading companies in the field of artificial intelligence (AI), Meta has been pushing the boundaries of what's possible with machine learning models. From recently released open source models such as LLaMA to developing the most used Python library for ML and AI, PyTorch.
+The following sections delve into advances in computer vision and the growth of foundation models.
+Advances in Computer Vision
+Computer vision has also experienced considerable advancements, with models like CLIP bridging the gap between text and image understanding.
+These models use contrastive learning to map text and image data. This allows them to generalize to new visual concepts and data distributions through prompt engineering.
+FAIR’s Segment Anything Model (SAM) is the latest breakthrough in this field. Their goal was to create a foundation model for image segmentation that can adapt to various downstream tasks using prompt engineering.
+Let’s shortly explore some of the key developments in computer vision that have contributed to the growth of AI systems like Meta's.
+Convolutional Neural Networks (CNNs)
+CNNs, first introduced by Yann LeCun (now VP & Chief AI scientist at Meta) in 1989, have emerged as the backbone of modern computer vision systems, enabling machines to automatically learn and recognize complex patterns in images.
+By employing convolutional layers, CNNs can capture local and global features in images, allowing them to effectively recognize objects, scenes, and actions. This has led to significant improvements in tasks such as image classification, object detection, and semantic segmentation.
+Generative Adversarial Networks (GANs)
+GANs are a type of deep learning model that Ian Goodfellow and his team came up with in 2014. They are made up of two neural networks, a generator and a discriminator, that compete with each other.
+The generator aims to create realistic outputs, while the discriminator tries to distinguish between real and generated outputs. The competition between these networks has resulted in the creation of increasingly realistic synthetic images and has led to advances in tasks such as image synthesis, data augmentation, and style transfer.
+Transfer learning and pre-trained models
+Similar to NLP, computer vision has benefited from the development of pre-trained models that can be fine-tuned for specific tasks. Models such as ResNet, VGG, and EfficientNet have been trained on large-scale image datasets, allowing researchers to use these models as a starting point for their own projects.
+The Growth of Foundation Models
+Foundation models in natural language processing (NLP) have made significant strides in recent years, with models like Meta’s own LLaMa or OpenAI’s GPT-4 demonstrating remarkable capabilities in zero-shot and few-shot learning.
+These models are pre-trained on vast amounts of data and have the ability to generalize to new tasks and data distributions by using prompt engineering. Meta AI has been instrumental in advancing this field, fostering research and the development of large-scale NLP models that have a wide range of applications.
+Here, we explore the factors contributing to the growth of foundation models.
+Large-scale language models
+The advent of large-scale language models like GPT-4 has been a driving force behind the development of foundation models in NLP. These models employ deep learning architectures with billions of parameters, allowing them to capture complex patterns and structures in the training data.
+Transfer learning
+A key feature of foundation models in NLP is their capacity for transfer learning. Once trained on a large corpus of data, they can be fine-tuned on smaller, task-specific datasets to achieve state-of-the-art performance across a variety of tasks.
+Zero-shot and few-shot learning
+Foundation models have also shown promise in zero-shot and few-shot learning, where they can perform tasks without any fine-tuning or with minimal task-specific training data. This capability is largely attributed to the models' ability to understand and generate human-like responses based on the context provided by prompts.
+Multi-modal learning
+Another growing area of interest is multi-modal learning, where foundation models are trained to understand and generate content across different modalities, such as text and images.
+Models like CLIP and ALIGN show how NLP and computer vision could be used together to make multi-modal models that can translate actions from one domain to another.
+Ethical Considerations and Safety
+The growth of foundation models in NLP has also raised concerns about their ethical implications and safety. Researchers are actively exploring ways to mitigate potential biases, address content generation concerns, and develop safe and controllable AI systems. Proof of this was the recent call for a six-month halt on all development of cutting edge models.
+Comparing Segment Anything Model to Previous Models
+SAM is a big step forward for AI because it builds on the foundations that were set by earlier models. SAM can take input prompts from other systems, such as, in the future, taking a user's gaze from an AR/VR headset to select an object, using the output masks for video editing, abstracting 2D objects into 3D models, and even popular Google Photos tasks like creating collages.
+It can handle tricky situations by generating multiple valid masks where the prompt is unclear. Take, for instance, a user’s prompt for finding Waldo:
+Source
+One of the reasons the results from SAM are groundbreaking is because of how good the segmentation masks are compared to other techniques like ViTDet. The illustration below shows a comparison of both techniques:
+Source
+The research paper compares the results of both techniques in more detail.
+Dive into SAM's Network Architecture and Design
+SAM’s design hinges on three main components:
+Source
+Task
+SAM was trained on millions of images and over a billion masks to return a valid segmentation mask for any prompt. The prompt, in this case, is the segmentation task and can be foreground/background points, a rough box or mask, clicks, text, or, in general, any information indicating what to segment in an image. The task is also used as the pre-training objective for the model.
+Model
+SAM’s architecture comprises three components that work together to return a valid segmentation mask:
+Segment Anything Model (SAM) components. | Source
+We will dig deeper into the architecture in the next section, but for now, let’s take a look at the dataset.
+Data Engine and Dataset
+A data engine is needed to power the tasks and improve the dataset and model. The data engine has three stages:
+The data engine builds the large segment anything 1-billion mask dataset Meta AI released.
+A Quick Guide to the Segment Anything Model’s Structure
+Source
+Image encoder
+At the highest level, an image encoder (a masked auto-encoder, MAE, pre-trained Vision Transformer, ViT) generates one-time image embeddings and can be applied prior to prompting the model.
+Prompt encoder
+The prompt encoder encodes background points, masks, bounding boxes, or texts into an embedding vector in real time. The research considers two sets of prompts: sparse (points, boxes, text) and dense (masks).
+Points and boxes are represented by positional encodings and added with learned embeddings for each prompt type. Free-form text prompts are represented with an off-the-shelf text encoder from CLIP. Dense prompts, like masks, are embedded with convolutions and summed element-wise with the image embedding.
+Mask decoder
+A lightweight mask decoder predicts the segmentation masks based on the embeddings from both the image and prompt encoders. It maps the image embedding, prompt embeddings, and an output token to a mask. All of the embeddings are updated by the decoder block, which uses prompt self-attention and cross-attention in two directions (from prompt to image embedding and back).
+The masks are annotated and used to update the model weights. This layout enhances the dataset and allows the model to learn and improve over time, making it efficient and flexible.
+Segment Anything 1-Billion Mask Dataset
+The Segment Anything 1 Billion Mask (SA-1B) dataset is the largest labeled segmentation dataset to date. It is specifically designed for the development and evaluation of advanced segmentation models.
+We think the dataset will be an important part of training and fine-tuning future general-purpose models. This would allow them to achieve remarkable performance across diverse segmentation tasks. For now, the dataset is only available under a permissive license for research.
+The SA-1B dataset is unique due to its:
+Diversity
+The dataset is carefully curated to cover a wide range of domains, objects, and scenarios, ensuring that the model can generalize well to different tasks. It includes images from various sources, such as natural scenes, urban environments, medical imagery, satellite images, and more.
+This diversity helps the model learn to segment objects and scenes with varying complexity, scale, and context.
+Source
+Size
+The SA-1B dataset, which contains over a billion high-quality annotated images, provides ample training data for the model. The sheer volume of data helps the model learn complex patterns and representations, enabling it to achieve state-of-the-art performance on different segmentation tasks.
+Source
+High-quality annotations
+The dataset has been carefully annotated with high-quality masks, leading to more accurate and detailed segmentation results. In the Responsible AI (RAI) analysis of the SA-1B dataset, potential fairness concerns and biases in geographic and income distribution were investigated.
+The research paper showed that SA-1B has a substantially higher percentage of images from Europe, Asia, and Oceania, as well as middle-income countries, compared to other open-source datasets. It's important to note that the SA-1B dataset features at least 28 million masks for all regions, including Africa. This is 10 times more than the total number of masks in any previous dataset.
+Source
+At Encord, we think the SA-1B dataset will enter the computer vision hall of fame (together with famous datasets such as COCO, ImageNet, and MNIST) as a resource for the development of future computer vision segmentation models.
+Is Segment Anything Model Open Source?
+The short answer is YES! The SA-1B Dataset has been released as open source for research purposes. In addition, Meta AI released the pre-trained models (~2.4 GB in size) and code under Apache 2.0 (a permissive license) following FAIR’s commitment to open research. It is freely accessible on GitHub. The training dataset is also available, alongside an interactive demo web UI.
+All linked from the project webpage:
+Source
+How to Fine-Tune Segment Anything Model (SAM)
+Now that you know the datasets SAM was trained on, you can identify if a dataset that represents your tasks was covered in the SA-1B dataset. If it’s not, or is underrepresented, you can consider finetuning SAM’s weights on your dataset. Yes, that’s possible with the pre-trained models that are also open sourced.
+As of the time of this writing, the Meta AI team has not added a way to fine-tune SAM specific applications, but Alex Bonnet, our Machine Learning Solutions Engineer, has prepared a step-by-step guide on how to do this.
+The steps include:
+To see the fine-tuning process in practice, check out our detailed blog post that also includes a Colab notebook as a walkthrough.
+How to Use the Segment Anything Model for AI-Assisted Labeling
+At Encord, we see the Segment Anything Model (SAM) as a game changer in AI-assisted labeling. It basically eliminates the need to go through the pain of segmenting images with polygon drawing tools and allows you to focus on the data tasks that are more important for your model.
+These other data tasks include mapping the relationships between different objects, giving them attributes that describe how they act, and evaluating the training data to make sure it is balanced, diverse, and free of bias.
+Enhancing Manual Labeling with AI
+SAM can be used to create AI-assisted workflow enhancements and boost productivity for annotators. Here are just a few improvements we think SAM can contribute:
+Source
+So integrating SAM into the annotation workflow is a no-brainer from our side, and it would allow our current and future customers to accelerate the development of cutting-edge computer vision applications.
+How can SAM Contributes to AI-Assisted Labeling
+To give an example of how SAM can contribute to AI-assisted labeling, consider the medical image example from before. We uploaded the DICOM image to the demo web UI, and spent 10 seconds clicking the image to segment the different areas of interest.
+Afterward, we did the same exercise with manual labeling using polygon annotations, which took 2.5 minutes. A 15x improvement in the labeling speed!
+We’re excited to start building this capability into Encord’s platform. Do reach out if you want to hear more.
+Real-World Use Cases and Applications
+SAM can be used in almost every single segmentation task, from instance segmentation to panoptic segmentation. We’re excited about how quickly SAM can help you pre-label objects with almost pixel-perfect segmentation masks before your expert reviewer adds the ontology on top.
+From agriculture and retail to medical imagery and geospatial imagery, the AI-assisted labeling that SAM can achieve is endless. It will be hard to imagine a world where SAM is not a default feature in all major annotation tools. This is why we at Encord are very excited about this new technology.
+Find other applications that could leverage SAM below.
+Image and video editors
+SAM’s outstanding ability to provide accurate segmentation masks for even the most complex videos and images can provide image and video editing applications with automatic object segmentation skills. Whether the prompts (point coordinates, bounding boxes, etc.) are in the foreground or background, SAM uses positional encodings to indicate if the prompt is in the foreground or background.
+Generating synthetic datasets for low-resource industries
+One challenge that has plagued computer vision applications in industries like manufacturing is the lack of datasets. For example, industries building car parts and planning to detect defects in the parts along the production line cannot afford to gather large datasets for that use case.
+You can use SAM to generate synthetic datasets for your applications. If you realize SAM does not work particularly well for your applications, an option is to fine-tune it on existing datasets.
+Gaze-based Segmentation
+AR applications can use SAM’s Zero-Shot Single Point Valid Mask Evaluation technique to segment objects through devices like AR glasses based on where subjects gaze. This can help AR technologies give users a more realistic sense of the world as they interact with those objects.
+Where Does This Leave Us?
+The Segment Anything Model (SAM) truly represents a groundbreaking development in the field of computer vision. By leveraging promptable segmentation tasks, SAM can adapt to a wide variety of downstream segmentation problems using prompt engineering.
+This innovative approach, combined with the largest labeled segmentation dataset to date (SA-1B), allows SAM to achieve state-of-the-art performance in various segmentation tasks.
+With the potential to significantly enhance AI-assisted labeling and reduce manual labor in image segmentation tasks, SAM can pave the way in industries such as agriculture, retail, medical imagery, and geospatial imagery.
+At Encord, we recognize the immense potential of SAM, and we are soon bringing the model to the Encord Platform to support AI-assisted labeling, further streamlining the data annotation process for users.
+As an open-source model, SAM will inspire further research and development in computer vision, encouraging the AI community to push the boundaries of what is possible in this rapidly evolving field.
+Ultimately, SAM marks a new chapter in the story of computer vision, demonstrating the power of foundation models in transforming the way we perceive and understand the world around us.
+Frequently Asked Questions on Segment Anything Model (SAM)
+How do I fine-tune SAM for my tasks?
+We have provided a step-by-step walkthrough you can follow to fine-tune SAM for your tasks. Check out the tutorial in this blog post.
+What datasets were used to train SAM?
+The Segment Anything 1 Billion Mask (SA-1B) dataset has been touted as the “ImageNet of segmentation tasks.” The images vary across subject matter. Scenes, objects, and places frequently appear throughout the dataset. Masks range from large-scale objects such as buildings to fine-grained details like door handles.
+See the data card and dataset viewer to learn more about the composition of the dataset.
+Does SAM work well for all tasks?
+Yes. You can automatically select individual items from images—it works very well on complex images. SAM is a foundation model that provides multi-task capabilities to any application you plug it into.
+Does SAM work well for ambiguous images?
+Yes, it does. Because of this, you might find duplicates in your mask sets when you run SAM over your dataset. This allows you to select the most appropriate masks for your task. In this case, you should add a post-processing step to segment the most suitable masks for your task.
+Source
+How long does it take SAM to generate segmentation masks?
+SAM can generate a segment in as little as 50 milliseconds—practically real-time!
+Do I need a GPU to run SAM?
+Although it is possible to run SAM on your CPU, you can use a GPU to achieve significantly faster results from SAM.
+The Complete Data Engine for AI Model Development
+Related Blogs
+Meta AI and Microsoft have joined forces to introduce Llama 2, the next generation of Meta’s open-source large language model.
+The best part? Llama 2 is available for free, both for research and commercial use. Let's dive right in.
+LLaMA Large Language Model Meta AI (LLaMA) is a state-of-the-art foundational large language model that was released by Meta earlier this year. It is an impressive collection of foundational models, comprised of models with parameter sixes ranging from 7 billion to 65 billion.
+LLaMA stands out due to its extensive training on trillion of tokens, showcasing that state-of-the-art models can be attained solely though publicly available datasets and without the need for proprietary or inaccessible data.
+{{gray_callout_start}} 💡 Read the published paper LLaMA: Open and Efficient Foundation Language Models.  {{gray_callout_end}}
+Notably, the LLaMA-13B model outperformed GPT-3, which has a significantly larger parameter size of 175B, across most benchmark datasets. This remarkable accomplishment highlights LLaMA’s efficiency in delivering top-tier performance with significantly fewer parameters.
+The largest model of the collection, LLaMA-65B, holds its own amongst other leading models in the field of natural language processing (NLP) like Chinchilla-70B and PaLM-540B.
+LLaMA stands out due to its strong emphasis on openness and accessibility. Meta AI, the creators of LLaMA, have demonstrated their dedication to advancing the field of AI through collaborative efforts by releasing all their models to the research community. This is notably in contrast to OpenAI's GPT-3 or GPT-4.
+{{gray_callout_start}} 💡Note: LLaMA is available for research purposes only. {{gray_callout_end}}
+Llama 2 Llama 2 is an updated collection of pre-trained and fine-tuned large language models (LLMs) introduced by Meta researchers. It encompasses models ranging from 7 billion to 70 billion parameters, each designed to deliver exceptional performance across various language processing tasks.
+Building upon its predecssor, LLaMA, LLaMA 2 brings several enhancements. The pretraining corpus size has been expanded by 40%, allowing the model to learn from a more extensive and diverse set of publicly available data. Additionally, the context length of Llama 2 has been doubled, enabling the model to consider a more extensive context when generating responses, leading to improved output quality and accuracy.
+Llama 2: Open Foundation and Fine-Tuned Chat Models
+One notable addition to Llama 2 is the adoption of grouped-query attention, which is expected to enhance attention and focus during language processing tasks.
+Llama 2-Chat is a version of Llama 2 that has been fine-tuned for dialogue-related applications. Through the fine-tuning process, the model has been optimized to deliver superior performance, ensuring it generates more contextually relevant responses during conversations.
+Llama 2 was pretrained using openly accessible online data sources. For the fine-tuned version, Llama 2-Chat, leveraged publicly available instruction datasets and used more than 1 million human annotations.
+{{gray_callout_start}} 💡 Read the paper Llama 2: Open Foundation and Fine-Tuned Chat Models for more information on technical specifications. {{gray_callout_end}}
+Across a range of external benchmarks, including reasoning, coding, proficiency, and knowledge tests, Llama 2 outshines other open-source language models.
+Llama 2: Open Foundation and Fine-Tuned Chat Models
+Meta researchers have released variants of Llama 2 and Llama 2-Chat with different parameter sizes, including 7 billion, 13 billion, and 70 billion. These variations cater to various computational requirements and application scenarios, allowing researchers and developers to choose the best-suited model for their specific tasks.
+{{gray_callout_start}} 💡You can download the model here. {{gray_callout_end}}
+Focus on Responsibility Meta's dedication to responsibility is evident in its open-source approach and emphasis on transparency. While recoginizing the profound societal advancements facilitated by AI, Meta remains aware of the associated risks. Their commitment to building responsibly is evident through several key initiatives undertaken during the development and release of Llama 2.
+Red-Teaming Exercises To ensure safety, Meta exposes fine-tuned models to red-teaming exercises. Through internal and external efforts, the models undergo thorough testing with adversarial prompts. This iterative process allows them to continuously enhance safety and address potential vulnerabilities, leading to the release of updated fine-tuned models based on these efforts.
+Transparency Schematic Meta promotes transparency by providing detailed insights into their fine-tuning and evaluation methods. Meta openly discloses known challenges and shortcomings, offering valuable information to the AI community. Their transparency schematic, found within the research paper, provides a roadmap of mitigations implemented and future explorations.
+Responsible Use Guide Meta acknowledges the importance of guiding developers in responsible AI deployment. To achieve this, they have developed a comprehensive Responsible User Guide. This resource equips developers with best practices for responsible development and safety evaluations, ensuring the ethical and appropriate use of Llama 2.
+Acceptable Use Policy Meta implemented an acceptable use policy to prevent misuse and safeguard against inappropriate usage. By explicitly defining certain prohibited use cases, Meta is actively promoting fairness and responsible AI application.
+Reinforcement Learning from Human Feedback Meta uses Reinforcement Learning from Human Feedback (RLHF) for Llama-2-chat to prioritize safety and helpfulness. This training technique used in AI models improves model performance through interactions with human evaluators.
+{{gray_callout_start}} 💡 Read the blog The Complete Guide to RLHF for Computer Vision for more information. {{gray_callout_end}}
+Meta AI’s other recent releases Meta has achieved remarkable success with a series of open source tool releases in recent months.
+I-JEPA I-JEPA (Image-based Joint-Embedding Predictive Architecture) is a self-supervised learning approach for image representations. It efficiently learns semantic features without relying on hand-crafter data augmentations.  Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture
+Compared to pixel-reconstruction methods, I-JEPA excels in ImageNet-1K linear probing and low-level vision tasks such as object counting and depth prediction. With excellent scalability and efficiency, it outperforms previous pretraining approaches, making it a versatile and powerful tool for learning meaningful image representations.
+{{gray_callout_start}} 💡Read the blog Meta AI’s I-JEPA, Image-based Joint-Embedding Predictive Architecture, Explained for more information. {{gray_callout_end}}
+DINO v2 DINOv2 is a self-supervised learning method designed to acquire visual representations from images without the need for labeled data. Unlike transitional supervised learning approaches, DINOv2 overcomes the reliance on vast amounts of labeled data during training.  DINOv2: Learning Robust Visual Features without Supervision
+The DINOv2 workflow consists of two main stages: pre-training and fine-tuning. In the pretraining phase, the DINO model gains valuable visual insights by processing a vast collection of unlabeled images. Subsequently, during the fine-tuning stage, the pre-trained DINO model gets customized and adapted to handle specific tasks, such as image classification or object detection, using a dataset tailored to that task.
+{{gray_callout_start}} 💡Read the blog DINOv2: Self-supervised Learning Model Explained for more information. {{gray_callout_end}}
+Segment Anything Model (SAM) Segment Anything Model (SAM) revolutionizes image segmentation by adopting foundation models which are typically used in natural language processing (NLP).  Segment Anything
+SAM introduces prompt engineering, a novel approach that addresses diverse segmentation challenges. This empowers users to select objects for segmentation interactively, employing bounding boxes, key points, grids or text prompts.
+When faced with uncertainty regarding the object to be segmented, SAM exhibits the capability to generate multiple valid masks, enhancing the flexibility of the segmentation process. SAM has great potential to reduce labeling costs, providing a much-awaited solution for AI-assisted labeling, and improving labeling speedby orders of magnitude.
+{{gray_callout_start}} 💡Read the blog Meta AI's New Breakthrough: Segment Anything Model (SAM) Explained for more information. {{gray_callout_end}}
+ImageBind ImageBIND introduces an approach to learn a unified embedding space encompassing six diverse modalities: tex, image/video, audio, depth, thermal, and IMU. This technique enhances AI model’s ability to process and analyze data more comprehensively, incorporating information from various modalities, thus leading to a more humanistic understanding of the information at hand. ImageBind: One Embedding Space To Bind Them All
+To generate fixed-dimensional embeddings, the ImageBIND architecture employs separate encoders for each modality, coupled with linear projection heads tailored to individual modalities. The architecture primarily comprises three key components: Modality-specific encoders Cross-modal attention module Joint embedding space Although the framework’s precise specifications have not been made public, the research paper offers insights into the suggested architecture.
+{{gray_callout_start}} 💡Read the blog ImageBind MultiJoint Embedding Model from Meta Explained for more information. {{gray_callout_end}}
+Conclusion The introduction of Llama 2 represents a significant milestone. As an open-source large language model, Llama 2 offers boundless opportunities for research and commercial use, fueling innovation across various domains.
+July 19
+Step into the captivating world of cinemagraphs, in which elements of a visual come to life with fluid motion.
+Crafting cinemagraphs has traditionally been a laborious process involving video capture, frame stabilization, and manual selection of animated and static regions.
+But what if there was a revolutionary method that brings cinemagraph creation to a whole new level of simplicity and creativity? Let’s delve into this exciting research.
+Introducing Text2Cinemagraph - this groundbreaking method leverages the concept of twin image synthesis to generate seamless and visually captivating cinemagraphs from user-provided text prompts. Text2Cinemagraph not only breathes life into realistic scenes but also allows creators to explore imaginative realms, weaving together various artistic styles and otherworldly visions. Text Prompt: ‘a large waterfall falling from hills during sunset in the style of Leonid Afremov’.
+Before diving into the details of Text2Cinemagraph, let’s discuss text-based synthetic cinemagraphs.
+Text-based Synthetic Cinemagraphs Cinemagraphs are visuals where certain elements exhibit continuous motion while the rest remain static. Traditionally, creating cinemagraphs has involved capturing videos or images with a camera and using semi-automated methods to produce seamless looping videos. This process requires considerable user effort and involves capturing suitable footage, stabilizing frames, selecting animated and static regions, and specifying motion directions.
+Text-based cinemagraph synthesis expedites this process. The method generates cinemagraphs from a user-provided text prompt, allowing creators to specify various artistic styles and imaginative visual elements. The generated cinemagraphs can depict realistic scenes as well as creative or otherworldly compositions.
+There are two approaches for generating synthetic cinemagraphs:
+Text-to-Image Models One method is to generate an artistic image using a text-to-image model and subsequently animate it. However, this approach faces challenges as existing single-image animation techniques struggle  to predict meaningful motions for artistic inputs. This is primarily due to their training on real video datasets. Creating a large-scale dataset of artistic looping videos, however, is impractical due to the complexity of producing individual cinemagraphs and the wide variety of artistic styles involved.
+{{try_encord}}
+Text-to-Video Models An alternative approach is to use text-to-video models for generating synthetic cinemagraphs. Unlike the previous method of first generating an artistic image and then animating it, text-to-video models directly create videos based on the provided text prompts.
+However, experiments have revealed that these text-to-video methods often introduce noticeable temporal flickering artifacts in static regions and fail to produce the desired semi-periodic motions required for cinemagraphs. These issues arise due to the challenges of accurately predicting continuous and seamless motions solely from text descriptions.
+Text2Cinemagraph aims to overcome these limitations and enhance motion prediction by leveraging the concept of twin image synthesis.
+Text2Cinemagraph: Synthesizing Artistic Cinemagraphs from Text Text2Cinemagraph presents a fully-automated approach to generating cinemagraphs from text descriptions. The research paper, authored by Aniruddha Mahapatra and Jun-Yan Zhu from CMU and Aliaksandr Siarohin, Hsin-Ying Lee, and Sergey Tulyakov from Snap Research, introduces an innovative method that overcomes the difficulties of interpreting imaginary elements and artistic styles in the prompts to generate cinemagraphs. Synthesizing Artistic Cinemagraphs from Text
+Text2Cinemagraph achieves a seamless transfer of motion from a realistic image to an artistic one by synthesizing a pair of images. The process generates a visually appealing cinemagraph that brings the text description to life with fluid and mesmerizing motion. Text2Cinemagraph not only outperforms existing approaches but also offers extensions for animating existing paintings and controlling motion directions using text commands. Text Prompt: “a large river in a futuristic world, large buildings, cyberpunk style”
+Text2Cinemagraph: Core Design The core design of Text2Cinemagraph contains 3 elements: twin image generation, mask-guided optical flow prediction, and video generation. Synthesizing Artistic Cinemagraphs from Text Twin Image Generation The twin image generation method involves creating an artistic image from the input text prompt using Stable Diffusion and generating a corresponding realistic counterpart with a similar semantic layout. This is achieved by injecting self-attention maps and residual block features into the UNet module during the degeneration process, ensuring meaningful correspondence between the twin images.
+This step lays the foundation for accurate motion prediction in the next step. Mask-Guided Flow Prediction Text2Cinemagraph uses a mask-guided approach to define the regions to animate in the image. The flow prediction model uses a pre-trained segmentation model which is trained on real images, ODISE, and user-specified region names, to predict the binary mask. The model is refined using self-attention maps from the diffusion model.
+Using this mask as a guide, the flow prediction model generates the optical flow for the realistic image. The flow prediction model is conditioned not only on the mask but also on the CLIP embedding of the input text prompt. This allows the model to incorporate class information from the text, such as “waterfall” or “river,” to determine the natural direction in the predicted flow.
+This method effectively addresses the challenges of the boundaries of static regions and ensures smoother animation. Flow-Guided Video Generation After predicting the optical flow for the realistic image, it is transferred to animate the artistic image. This transfer is possible because of the similar semantic layout between the real and the artistic image.
+Now, to generate the cinemagraph, each frame is generated separately. For the looping effect, the artistic image serves as both the first and last frame. Euler integration of the predicted optical flow is performed to obtain the cumulative flows in forward and backward directions.
+Surprisingly, despite being trained on real-domain videos, the model can animate the artistic image without modification. This is achieved by essentially in painting small holes in the feature space generated during symmetric splatting, with surrounding textures providing repetitive patterns.
+Text2Cinemagraph: Results The training of Text2Cinemagraph involves two domains: Real Domain and Artistic Domain. The real domain includes a dataset of real-life videos with ground-truth optical flow, while the artistic domain generates artistic images from different captions generated using BLIP.
+{{gray_callout_start}} 💡The PyTorch implementation of Text2Cinemagraph can be found here.  {{gray_callout_end}}
+The models are trained with UNet backbones and cross-attention layers. Text2Cinemagraph outperforms recent methods in both domains, demonstrating its effectiveness in generating high-quality cinemagraphs from text prompts.
+Real Domain Results Text prompt: ‘a large river flowing in front of a mountain in the style of starry nights painting’.
+In the real domain, Text2Cinemagraph outperforms baselines in both qualitative and quantitative evaluations. This method predicts more plausible flows, covering entire dynamic regions like rivers.  Synthesizing Artistic Cinemagraphs from Text
+Quantitatively, this method achieves significantly lower FVD scores, closely matching the fidelity of ground-truth videos. Hence, Text2Cinemagraph excels in generating high-quality cinemagraphs from real-world videos.
+Text Prompt: ‘Pirate ships in turbulent ocean, ancient photo, brown tint’.
+Artistic Domain Results Synthesizing Artistic Cinemagraphs from Text
+In the Artistic Domain, Text2Cinemagraph excels in qualitative comparison. It predicts cleaner flows, focusing accurately on desired regions, while baselines produce inaccurate flows with artifacts.
+Other text-to-video methods struggle to capture details or preserve temporal consistency. Text2Cinemagraph generates higher-quality cinemagraphs with smooth motion, overcoming limitations of other approaches and showcasing its ability to bring artistic visions to life. Text-Guided Direction Control This method also allows you to provide text-guided direction control for cinemagraph generation. This allows the manipulation of the direction of the movements in the cinemagraph according to the text prompt. Text Prompt: “a large river flowing in left to right, downwards direction in front of a mountain in the style of starry nights painting”.
+Text Prompt: “a large river flowing in upwards, right to left direction> in front of a mountain in the style of starry nights painting” Text2Cinemagraph: Limitations Text2Cinemagraph has some limitations:
+Artistic and realistic images may not always correspond to the input text, leading to missing dynamic regions in the generated images. Structural alterations in the artistic image can occur, even though it shares self-attention maps with the realistic image.  The pre-trained segmentation model (e.g., ODISE) might struggle with complex natural images, leading to imperfect segmentation and unusual movements in the generated cinemagraphs. Optical flow prediction may fail for images with unusual compositions and complex fluid dynamics. Significant changes in flow direction, like repeated zig-zag movement of water, may be challenging for the optical flow model to predict accurately. Text2Cinemagraph: Key Takeaways Text2Cinemagraph generates captivating cinemagraphs from text descriptions, offering a fully automated solution for cinemagraph creation. Concept behind Text2Cinemagraph: It uses twin image synthesis, transferring motion from realistic images to artistic ones for seamless animations. Text2Cinemagraph excels in generating high-quality cinemagraphs for real and artistic domains. It also enables text-guided direction control for manipulating movement based on text prompts.
+Read More Read more on other recent releases: https://encord.com/blog/i-jepa-explained/ MEGABYTE, Meta AI’s New Revolutionary Model Architecture Explained Meta Training Inference Accelerator (MTIA) Explained ImageBind MultiJoint Embedding Model from Meta Explained
+July 18
+Machine learning (ML) has enabled companies to leverage large volumes of data to develop powerful models, generate insightful predictions, and make informed business decisions. But to ensure the quality of the ML pipeline, it is important to be able to conduct an in-depth evaluation of model performance. For this purpose, ML practitioners use evaluation metrics to determine the effectiveness of machine learning models. For instance, the F1 score is a fundamental metric for evaluating classification models and understanding how this metric works is crucial to ensure your classification model’s performance. In this article, we will dive into: The significance of evaluation metrics in machine learning The fundamentals of classification metrics Understanding & interpreting the F1 score metric ML applications where the F1 score metric is critical Limitations & caveats of F1 score metric F-score variants Model evaluation with Encord Active Significance of Evaluation Metrics in Machine Learning Evaluation metrics play a critical role in improving the accuracy, efficiency, quality, and effectiveness of machine learning models by providing objective and quantitative performance measures. For ML tasks, evaluation metrics: Provide model performance insights, i.e., data quality, correctness, error types, bias, and fairness. Assess the reliability and correctness of the model’s prediction Guide model selection by allowing a fair comparison of model variants Inform the hyperparameter tuning process Identify model limitations Aid stakeholders in decision-making Using multiple metrics to evaluate model performance is a common practice in ML tasks since a model can give good outcomes on one metric and perform suboptimally for another. In such cases, practitioners try to find a balance between various metrics. {{try_encord}}
+Different ML Tasks Have Different Evaluation Metrics ML tasks have unique objectives, and their corresponding models have distinct parameters and properties. Hence, there’s no one-size-fits-all approach when it comes to evaluating ML models for different tasks. For instance: Classification tasks require metrics like accuracy, precision, recall, F1 score, and AUC-ROC. Regression tasks employ metrics like Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), and R-squared.
+Clustering tasks are evaluated using metrics like the Silhouette score, Dunn index, and Rand index.
+Ranking & recommendation tasks use metrics like MAP, NDCG, and precision at K. {{gray_callout_start}} 💡 Interested in learning about computer vision metrics? Here’s our Introductory Guide to Quality Metrics in Computer Vision {{gray_callout_end}}
+Before discussing the F1 score metric, let's understand the basics of classification metrics in more detail.
+The Fundamentals of Classification Metrics Typically, classification tasks are categorized as binary classification (datasets with two classes or labels) and multi-class classification (datasets with more than two classes). Hence, classification models or classifiers try to predict labels or classes for the given data.
+Classification Prediction Outcomes Classifiers can have four possible outcomes: True Positives (TP): Events correctly predicted as positive. True Negatives (TN): Events accurately predicted as negative. False Positives (FP): Events wrongly predicted as positive when they were negative. False Negatives (FN): Events wrongly predicted as negative when they were positive.
+Most classification metrics such as accuracy, precision, recall (also known as sensitivity or true positive rate), specificity (true negative rate), F1 score (harmonic mean of precision and recall), and area under the ROC curve (AUC-ROC) use the above four outcomes for calculating metric values.
+Table 1: Sample outcomes of a binary classification model
+Confusion Matrix A confusion matrix is a useful tool to evaluate the performance of a classification model by mapping its actual and predicted values. In binary classification tasks, it is a table that shows the four prediction outcomes discussed above: true positives, true negatives, false positives, and false negatives. This two-dimensional matrix allows ML practitioners to summarize prediction outcomes in order to seamlessly calculate the model's precision, recall, F1 score, and other metrics. Consider the following confusion matrix as an example:
+Illustration of confusion matrix
+Understanding Accuracy, Precision & Recall
+Accuracy The accuracy metric calculates the overall prediction correctness by dividing the number of correctly predicted positive and negative events by the total number of events. The formula for calculating accuracy is
+Let’s use the data of the model outcomes from Table 1 to calculate the accuracy of a simple classification model:
+Typically, an accuracy score above 0.7 describes an average model performance, whereas a score above 0.9 indicates a good model. However, the relevance of the score is determined by the task. Accuracy alone may not provide a complete picture of model performance, especially In scenarios where class imbalance exists in the dataset. Therefore, to address the constraints of accuracy, precision, and recall metrics are used.
+Precision The precision metric determines the quality of positive predictions by measuring their correctness. It is the number of true positive outcomes divided by the sum of true positive and false positive predictions. The formula applied in calculating precision is:
+Using the classification model outcomes from Table 1 above, precision is calculated as
+Precision can be thought of as a quality metric; higher precision indicates that an algorithm provides more relevant results than irrelevant ones. It is solely focused on the correctness of positive predictions, with no attention to the correct detection of negative predictions.
+Recall Recall, also called sensitivity, measures the model's ability to detect positive events correctly. It is the percentage of accurately predicted positive events out of all actual positive events. To calculate the recall of a classification model, the formula is
+Using the classification model outcomes from Table 1 above, recall is calculated as
+A high recall score indicates that the classifier predicts the majority of the relevant results correctly. However, the recall metric does not take into account the potential repercussions of false positives, i.e., occurrences that are wrongly identified as positive – a false alarm. Typically, we would like to avoid such cases, especially in mission-critical applications such as intrusion detection, where a non-malicious false alarm increases the workload of overburdened security teams.
+While precision and recall give useful information on their own, they also have limitations when viewed separately.
+Ideally, we want to build classifiers with high precision and recall. But that’s not always possible. A classifier with high recall may have low precision, meaning it captures the majority of positive classes but produces a considerable number of false positives. Hence, we use the F1 score metric to balance this precision-recall trade-off.
+Understanding the F1 Score Metric The F1 score or F-measure is described as the harmonic mean of the precision and recall of a classification model. The two metrics contribute equally to the score, ensuring that the F1 metric correctly indicates the reliability of a model.
+It’s important to note that calculating the F1 score using arithmetic mean may not appropriately represent the model's overall performance, especially when precision and recall have considerably varied values. That’s because the arithmetic mean focuses on the sum of values and their average.
+On the other hand, the harmonic mean emphasizes the reciprocal of values. It is computed by dividing the total number of values by the sum of their reciprocals. Hence, it enhances the effect of the smaller value on the overall calculation to achieve a balanced measurement. As a result, the F1 score takes into account both precision-recall while avoiding the overestimation that the arithmetic mean might cause.
+The F1 score formula is
+Using the classification model outcomes from Table 1, the F1 score is calculated as
+Here, you can observe that the harmonic mean of precision and recall creates a balanced measurement, i.e., the model's precision is not optimized at the price of recall, or vice versa. Hence, the F1 score shows a strong performance in recognizing positive cases while minimizing false positives and false negatives. This makes it a suitable metric when recall and precision must be optimized simultaneously, especially in imbalanced datasets. As a result, the F1 score metric directs real-world decision-making more accurately.
+Interpreting the F1 Score Metric The F1 score ranges between 0 and 1, with 0 denoting the lowest possible result and 1 denoting a flawless result, meaning that the model accurately predicted each label.
+A high F1 score generally indicates a well-balanced performance, demonstrating that the model can concurrently attain high precision and high recall. A low F1 score often signifies a trade-off between recall and precision, implying that the model has trouble striking that balance. As a general rule of thumb, the F1 score value can be interpreted as follows:
+What is a good F1 score and how do I interpret it?
+However, depending on the task requirements, model use case, and the tolerance for mistakes, the precise threshold for what is considered “low” might also change. For instance, a simple decision tree classifier and a multi-layered deep learning neural network would have different ranges for high or low F1 scores.
+Now, let's consider various ML applications where model evaluation requires a balance of precision and recall, deeming the F1 score as a more suitable evaluation metric.
+ML Applications Where F1 Score Metric is Critical
+Medical Diagnostics In medical diagnostics, it is important to acquire a high recall while correctly detecting positive occurrences, even if doing so necessitates losing precision. For instance, the F1 score of a cancer detection classifier should minimize the possibility of false negatives, i.e., patients with malignant cancer, but the classifier wrongly predicts as benign. {{medical_CTA}}
+Sentiment Analysis For natural language processing (NLP) tasks like sentiment analysis, recognizing both positive and negative sentiments in textual data allow businesses to assess public opinion, consumer feedback, and brand sentiment. Hence, the F1 score allows for an efficient evaluation of sentiment analysis models by taking precision and recall into account when categorizing sentiments.
+Fraud Detection In fraud detection, by considering both precision (the accuracy with which fraudulent cases are discovered) and recall (the capacity to identify all instances of fraud), the F1 score enables practitioners to assess fraud detection models more accurately. For instance, the figure below shows the evaluation metrics for a credit card fraud detection model.
+Implementation of Credit Card Fraud Detection Using Random Forest Algorithm
+Limitations & Caveats of F1 Score Metric ML practitioners must be aware of the following limits and caveats of the F1 score when interpreting its results.
+Dataset Class Imbalance For imbalanced data, when one class significantly outweighs the other, the regular F1 scoremetric might not give a true picture of the model's performance. This is because the regular F1 score gives precision and recall equal weight, but in datasets with imbalances, achieving high precision or recall for the minority class may result in a lower F1 score due to the majority class's strong influence.
+{{gray_callout_start}} 💡 Interested in learning more about class imbalance in datasets? Read our Introductory Blog on Balanced and Imbalanced Datasets in Machine Learning {{gray_callout_end}}
+Cost Associated with False Prediction Outcomes False positives and false negatives can have quite diverse outcomes depending on the application. In medical diagnostics, as discussed earlier, a false negative is more dangerous than a false positive. Hence, the F1 score must be interpreted carefully.
+Contextual Dependence The evaluation of the F1 score varies depending on the particular problem domain and task objectives. Various interpretations of what constitutes a high or low F1 score for different applications require various precision-recall criteria. Hence, a thorough understanding of the domain and the task at hand is needed to use and interpret the F1 score properly.
+F-score Variants To resolve severe class imbalance issues and achieve an appropriate balance between precision and recall, practitioners often use the following two variants of the F-score metric:
+F2 Score This variant places more emphasis on recall than precision. It is suitable for circumstances where detecting true positives is crucial. During the harmonic mean computation, recall is given more weightage.
+The F2 score formula is as follows:
+F-beta Score This variant offers a dynamic blend of recall and precision by changing the beta parameter — weight coefficient which should be greater than 0. Based on the particular task requirements, practitioners can change the beta value, i.e., beta < 1 favors precision, and beta > 1 favors recall.
+The F-beta score is calculated using the same formula as the F2 score, with beta dictating the importance of recall against precision.
+Supplementing F1 Score Metric
+Other performance metrics, such as the Area Under the Curve-Receiver Operating Characteristic Curve (AUC-ROC) can be used in addition to the F1 score to offer supplementary insights into an artificial intelligence model performance.
+The AUC-ROC metric evaluates the model's capability to differentiate between positive and negative classes across various classification criteria or decision thresholds by plotting the true positive rate (TPR) versus the false positive rate (FPR), as illustrated below.
+TP vs. FP rate at different classification thresholds
+Future Research Directions for F1 Score and Other Evaluation Metrics As data science grows, researchers and practitioners continue to investigate the challenges posed by imbalanced datasets. Modified F1 scores that account for class imbalance are being developed to improve performance evaluation.
+Another important area of focus for evaluation measures is fairness and ethics. The goal is to ensure that metrics take into account fairness towards specific subgroups or protected traits in addition to overall performance.
+Moreover, another research proposes a new discriminant metric to gauge how well AI models perform in maximizing risk-adjusted return for financial tasks after arguing that metrics like the F1 score were unsatisfactory for evaluation.
+Model Evaluation with Encord Active
+Encord Active is an ML platform that helps practitioners build better models. It offers the following features: Evaluation metrics visualization with intuitive charts and graphs Auto-identification of labeling errors Search and curate high-value visual data using natural language search Find and fix bias, drift, and dataset errors Find model failure modes with automated robustness tests Compare your datasets and models based on a detailed metrics evaluation Hence, it provides practitioners with a variety of evaluation approaches and measures, including the well-known F1 score, accuracy, precision, and recall. With Encord Active, data scientists can evaluate machine learning models quickly because of its simple user interface and easy-to-understand evaluation process.
+July 18
+8 min
+Software To Help You Turn Your Data Into AI
+Forget fragmented workflows, annotation tools, and Notebooks for building AI applications. Encord Data Engine accelerates every step of taking your model into production.
+Get occasional product updates and tutorials to your inbox.

@@ -1,0 +1,47 @@
+How to Use the Segment Anything Model (SAM)
+Discover the potential of Meta AI’s Segment Anything Model (SAM) in this comprehensive tutorial. We dive into SAM, an efficient and promptable model for image segmentation. With over 1 billion masks on 11M licensed and privacy-respecting images, SAM’s zero-shot performance is often competitive with or even superior to prior fully supervised results. For more information on how SAM works and the model architecture, read our SAM technical deep dive.
+In this written tutorial (and the video below), we will explore how to use SAM to generate masks automatically, create segmentation masks using bounding boxes, and convert object detection datasets into segmentation masks. If you're interested in using SAM to label data for computer vision, Roboflow Annotate uses SAM to power automated polygon labeling in the browser which you can try for free.
+In object detection, objects are often represented by bounding boxes, which are like drawing a rectangle around the object. These rectangles give a general idea of the object's location, but they don't show the exact shape of the object. They may also include parts of the background or other objects inside the rectangle, making it difficult to separate objects from their surroundings.
+Segmentation masks, on the other hand, are like drawing a detailed outline around the object, following its exact shape. This allows for a more precise understanding of the object's shape, size, and position.
+To use Segment Anything on a local machine, we'll follow these steps:
+Setting up Your Python Environment
+To get started, open the Roboflow notebook in Google Colab and ensure you have access to a GPU for faster processing. Next, install the required project dependencies and download the necessary files, including SAM weights.
+Loading the Segment Anything Model
+Once your environment is set up, load the SAM model into the memory. With multiple modes available for inference, you can use the model to generate masks in various ways. We will explore automated mask generation, generating segmentation masks with bounding boxes, and converting object detection datasets into segmentation masks.
+The SAM model can be loaded with 3 different encoders: ViT-B, ViT-L, and ViT-H. ViT-H improves substantially over ViT-B but has only marginal gains over ViT-L. These encoders have different parameter counts, with ViT-B having 91M, ViT-L having 308M, and ViT-H having 636M parameters. This difference in size also influences the speed of inference, so keep that in mind when choosing the encoder for your specific use case.
+Automated Mask (Instance Segmentation) Generation with SAM
+To generate masks automatically, use the SamAutomaticMaskGenerator. This utility generates a list of dictionaries describing individual segmentations. Each dict in the result list has the following format:
+To run the code below you will need images. You can use your own, programmatically pull them in from Roboflow, or download one of the over 200k datasets available on Roboflow Universe.
+The supervision package (starting from version 0.5.0) provides native support for SAM, making it easier to annotate segmentations on an image.
+Generate Segmentation Mask with Bounding Box
+Now that you know how to generate a mask for all objects in an image, let’s see how you can use a bounding box to focus SAM on a specific portion of your image.
+To extract masks related to specific areas of an image, import the SamPredictor and pass your bounding box through the mask predictor’s predict method. Note that the mask predictor has a different output format than the automated mask generator. The bounding box format for the SAM model should be in the form of [x_min, y_min, x_max, y_max] np.array.
+Convert Object Detection Datasets into Segmentation Masks
+To convert bounding boxes in your object detection dataset into segmentation masks, download the dataset in COCO format and load annotations into the memory.
+If you don't have a dataset in this format, Roboflow Universe is the ideal place to find and download one. Now you can use the SAM model to generate segmentation masks for each bounding box. Head over to the Google Colab where you will find the code to convert from bounding box to segmentation.
+Conclusion
+The Segment Anything Model offers a powerful and versatile solution for object segmentation in images, enabling you to enhance your datasets with segmentation masks.
+With its fast processing speed and various modes of inference, SAM is a valuable tool for computer vision applications. To experience labeling your data with SAM, you can use Roboflow Annotate which offers an automated polygon annotation tool, Smart Polygon, powered by SAM.
+Build and deploy computer vision models with Roboflow
+Join over 100,000 developers and top-tier companies from Walmart to Cardinal Health building computer vision models with Roboflow.
+Piotr Skalski
+ML Growth Engineer @ Roboflow | Owner @ github.com/SkalskiP/make-sense (2.4k stars) | Blogger @ skalskip.medium.com/ (4.5k followers)
+Build and deploy with Roboflow for free
+RECOMMENDED READS
+MORE ABOUT
+Computer Vision
+Improve Accuracy: Polygon Annotations for Object Detection
+Pose Estimation Algorithms: History and Evolution
+How to Build a Defect Detection System
+ChatGPT Code Interpreter for Computer Vision
+How Good Is Bing (GPT-4) Multimodality?
+How to Use Generative AI to Augment Computer Vision Data
+For sales inquiries:
+PRODUCT
+PLANS
+DEVELOPERS
+RESOURCES
+INDUSTRIES
+SOLUTIONS
+COMPANY
+Search

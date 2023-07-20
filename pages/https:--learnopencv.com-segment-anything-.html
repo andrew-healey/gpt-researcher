@@ -1,0 +1,106 @@
+LearnOpenCV
+Segment Anything – A Foundation Model for Image Segmentation
+May 2, 2023 By
+Leave a Comment
+Foundation models in Artificial Intelligence are becoming increasingly important. The term started picking up pace in the field of NLP and now, with the Segment Anything Model, they are slowly getting into the world of computer vision as well. Segment Anything is a project by Meta to build a starting point for foundation models for image segmentation. In this article, we will understand the most essential components of the Segment Anything project, including the dataset and the model.
+In addition to the Segment Anything Model and Dataset, we will also use the official pretrained weights to make inferences.
+What is the Segment Anything Project?
+Segment Anything is a new project by Meta to build two important components:
+It was introduced in the Segment Anything paper by Alexander Kirillov et al.
+This takes inspiration from the field of NLP where foundation models and large datasets (worth billions of tokens) have become commonplace.
+The project leads to the creation of a large dataset, a segmentation model, and a data engine all in loop.
+As image segmentation is one of the core computer vision tasks, the authors chose it as a starting point for such huge models and datasets. In both, science, and artificial intelligence, image segmentation has a number of potential uses. These include analyzing biomedical images, editing photos, and autonomous driving, among others.
+To solve any of these problems, you must train specialized models that can do only one task. This requires extensive domain knowledge, and time needed for specific data collection, not to mention the hours of training that are necessary for deep learning models.
+However, the Segment Anything project aims to democratize the world of image segmentation. By open sourcing both- the dataset and the model (SAM for short), opens up a huge array of possibilities.
+Further in the article, we will explore how all of the components are connected with each other.
+Master Generative AI for CV
+The Segment Anything Model (SAM)
+The Segment Anything Model is an approach to building a fully automatic promptable image segmentation model with minimal human intervention.
+The earlier deep learning approaches required specialized training data collection, manual annotation, and hours of training. Such approaches work well but also require substantial amounts of re-training the model when changing the dataset.
+With SAM, we now have a generalizable and promptable image segmentation model that can cut out almost anything from an image.
+The above example gives an idea of how versatile SAM is for segmenting objects in images irrespective of their classes.
+So, how does SAM do it?
+SAM is a deep learning model (transformer based). And as with any deep learning, it has been trained on a huge number of images and masks – more than 1 billion masks in 11 million images, to be precise. That’s a considerable number. The dataset is called the Segment Anything dataset, which we will delve into later in this article
+Even so, how does SAM know what objects to segment out in an image? The fact is, it does not always know. That’s where the promptable design of SAM comes in.
+SAM as a Promptable Image Segmentation Model
+SAM can take prompts from users about which area to segment out precisely. As of the current release, we can provide three different prompts to SAM:
+The authors are also working on a version of SAM that takes text inputs as prompts, just as in the case of language models.
+Because SAM has been trained on 1 billion masks and allows users to provide prompts, it can always output a valid mask. What exactly does this mean?
+In the case of a click as a prompt, sometimes users may click on a person. If, for some reason, SAM does not feel confident about outputting the mask of the person, it will try to mask the dress. In a manner similar to that, it tries to segment other “parts of an object” whenever a prompt is provided to SAM.
+Such a methodology allows SAM to output multiple valid masks when the object is ambiguous.
+How Does the Segment Anything Model Work?
+The creators of the Segment Anything Model take inspiration from chat-based Large Language Models where prompting is an integral part of the pipeline.
+In SAM, too, there are three important components of the mode:
+When we give an image as input to the Segment Anything Model, it first passes through an image encoder and produces a one-time embedding for the entire image.
+There is also a prompt encoder for points, boxes, or text as prompts. For points, the x & y coordinates, along with the foreground and background information, become input to the encoder. For boxes, the bounding box coordinates become the input to the encoder, and as for the text (not released at the time of writing this), the tokens become the input.
+In case we provide a mask as input, it directly goes through a downsampling stage. The downsampling happens using 2D convolutional layers. Then the model concatenates it with the image embedding to get the final vector.
+Any vector that the model gets from the prompt vector + image embedding passes through a lightweight decoder that creates the final segmentation mask.
+We get possible valid masks along with a confidence score as the output.
+SAM Image Encoder
+The image encoder is one of the most powerful and essential components of SAM. It is built upon a MAE pre-trained Vision Transformer model. But to keep the performance real-time in browsers, trade-offs have been made.
+Prompt Encoder
+For the prompt encoder, points, boxes, and text act as sparse inputs, and masks act as dense inputs. The creators of SAM represent points and bounding boxes using positional encodings and sum it with learned embeddings. For text prompts, SAM uses the text encoder from CLIP. For masks as prompts, after downsampling happens through convolutional layers, the embedding is summed element-wise with the input image embedding.
+The Segment Anything Dataset
+The foundation of any groundbreaking deep learning model is the dataset it’s trained on. And it’s no different for the Segmentation Anything Model as well.
+The Segment Anything Dataset contains more than 11 million images and 1.1 billion masks. The final dataset is called SA-1B dataset.
+Such a dataset is surely needed to train a model of Segment Anything capability. But we also know that such datasets do not exist, and manually annotating so many images is impossible.
+So, how was the dataset curated?
+In short, SAM helped in annotating the dataset. The data annotators used SAM to annotate images interactively, and the newly annotated data was then used to train SAM. This process was repeated, which gave rise to SAM’s in-loop data engine.
+This data engine + training the SAM on the dataset has three stages:
+In the first stage, the annotators used a pretrained SAM model to interactively segment objects in images in the browser. The image embeddings were precomputed to make the annotation process seamless and real-time. After the first stage, the dataset consisted of 4.3 million masks from 120k images. The Segment Anything Model was retrained on this dataset.
+In the second semi-automatic stage, the prominent objects were already segmented using SAM. The annotators additionally annotated less prominent objects which were unannotated. This stage resulted in an additional 5.9M masks in 180k images on which SAM was retrained.
+In the final ‘fully automatic stage’, the annotation was entirely done by SAM, By this stage, it had already been trained on more than 10M masks which made it possible. Automatic mask generation was applied on 11M images resulting in 1.1B masks.
+“The final version of the Segment Anything Dataset makes it the largest publicly available image segmentation dataset. Compared to OpenImages V5, there are 6x more images and 400x more masks in the dataset.
+What Can SAM Do?
+The possibilities while using SAM are endless. With its zero-shot generalization capability, SAM can segment objects in images without additional training.
+The following are some of the major contributions that SAM can possibly make.
+Augmented Reality
+Identifying everyday objects is one of the biggest achievements of SAM. Coupled with AR and AR glasses, it can help users with reminders and instructions.
+Not only that, in AR/VR users can segment and lift objects in the virtual world just by the user’s gaze.
+Bio-Medical Image Segmentation
+Medical image segmentation and cell microscopy are some of the hardest to tackle. But SAM can assist in the segmentation of cell-microscopy images out of the box without any retraining.
+Integration with Diffusion Models
+We can also integrate SAM with diffusion based image generation models. This will automate a lot of things, especially creating masks while inpainting.
+Generating Semantic Segmentation Datasets
+Because SAM can segment out objects so well, we can use it to generate masks for thousands of objects which can be used as ground truth. This will be most helpful when we want to segment objects belonging to a single class.
+Models Available Under the Open Source Project
+The SAM pretrained weights are available under segment-anything open source project.
+As of now, there are model weights available for three different scales of Vision Transformer models.
+The project also has a pip installable command. You can install segment-anything using the following command.
+pip install git+https://github.com/facebookresearch/segment-anything.git
+In the next section, we will use the official SAM weights and model to run inference on a few images. This will help us capture the exact capabilities of SAM.
+Before that, you will need to download the models. You can find all the official model weights in the official repository.
+Or you can use the command line if you are using Linux environment.
+wget https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth
+We will use the SAM-ViT-H (Huge) model for inference.
+Inference using SAM
+Here, we will follow the code for running inference using a Python script. All the code goes into the segment.py script.
+Let’s start with the import statements and define the argument parser.
+From the segment_anything library, we are importing the SamAutomaticMaskGenerator and sam_model_registry.
+The former will be used to initialize the mask generation module and the latter to initialize the model.
+Next, we have the show_anns function which extracts the mask annotations from the model output and plots them.
+Finally, we can initialize the model and run inference on the image provided through the argument parser.
+While initializing the model, we provide the model key to the registry. This is vit_h in this case. Then the checkpoint argument accepts the model weight path that we downloaded earlier.
+The rest of the code reads the image, preprocesses it, forward passes it through the model, and saves the output to disk.
+Let’s execute the script using one image and visualize the output.
+python segment.py --input input/image_1.jpg
+It will take some time for the model to run inference. After that, you can find the results in the output directory.
+Here is the result.
+It is truly remarkable how SAM is able to segment almost all the perceivable objects in the image. Starting from horses and shoes to the caps of persons, it has segmented almost everything. The Segment Anything Model is really living up to its name.
+Here are a few other results.
+In this case, the model is making a mistake while segmenting the background.
+In this traffic scene, SAM is able to segment the individual cars, the tires, and even the roofs of the horses.
+Now, let’s take a look at one final image, which contains microscopic blood cell elements.
+We can see that SAM is able to segment almost every cell in the image.
+Conclusion
+In this article, we discussed the Segment Anything Project and Model by Meta. Such a powerful foundation model for image segmentation opens up a world of possibilities. The possibilities to create automated annotation tools and instance segmentation tools using SAM are staggering. Not only that, we can even fine-tune SAM on more specific downstream segmentation tasks. This methodology is bound to result in a very robust image segmentation model. With SAM as a strong foundation, the future of image segmentation is brighter than ever before.
+Are you thinking about building something interesting using SAM? Let us know in the comment section. We will love to see a demo of your project.
+Related Posts on Image Segmentation
+Subscribe & Download Code
+References
+Filed Under: Computer Vision, Deep Learning, Image Segmentation
+Get Started with OpenCV
+Subscribe to receive the download link, receive updates, and be notified of bug fixes
+Which email should I send you the download link?
+All views expressed on this site are my own and do not represent the opinions of OpenCV.org or any entity whatsoever with which I have been, am now, or will be affiliated.
+In 2007, right after finishing my Ph.D., I co-founded TAAZ Inc. with my advisor Dr. David Kriegman and Kevin Barnes. The scalability, and robustness of our computer vision and machine learning algorithms have been put to rigorous test by more than 100M users who have tried our products.
