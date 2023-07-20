@@ -4,7 +4,10 @@
 import asyncio
 import json
 from actions.web_search import web_search
-from actions.web_scrape import async_browse
+
+from actions.web_scrape_after import async_browse as async_browse_after
+from actions.web_scrape_before import async_browse as async_browse_before
+
 from processing.text import \
     write_to_file, \
     create_message, \
@@ -15,6 +18,10 @@ from config import Config
 from agent import prompts
 import os
 import string
+
+use_complexity = os.environ.get("USE_COMPLEXITY", "False").lower() == "true"
+
+async_browse = async_browse_after if use_complexity else async_browse_before
 
 
 CFG = Config()

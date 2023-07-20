@@ -56,6 +56,11 @@ async def async_browse(url: str, question: str, websocket: WebSocket) -> str:
         await loop.run_in_executor(executor, add_header, driver)
         summary_text = await loop.run_in_executor(executor, summary.summarize_text, url, text, question, driver)
 
+        with open(f"BEFORE/pages/{url.replace('/', '-')}.html", "w") as f:
+            f.write(text)
+        with open(f"BEFORE/summaries/{url.replace('/', '-')}.html", "w") as f:
+            f.write(summary_text)
+
         await websocket.send_json(
             {"type": "logs", "output": f"📝 Information gathered from url {url}: {summary_text}"})
 
@@ -64,9 +69,7 @@ async def async_browse(url: str, question: str, websocket: WebSocket) -> str:
         print(f"An error occurred while processing the url {url}: {e}")
         return f"Error processing the url {url}: {e}"
 
-
-
-def browse_website(url: str, question: str) -> tuple[str, WebDriver]:
+def browse_website(url: str, question: str):
     """Browse a website and return the answer and links to the user
 
     Args:
@@ -95,8 +98,7 @@ def browse_website(url: str, question: str) -> tuple[str, WebDriver]:
     close_browser(driver)
     return f"Answer gathered from website: {summary_text} \n \n Links: {links}", driver
 
-
-def scrape_text_with_selenium(url: str) -> tuple[WebDriver, str]:
+def scrape_text_with_selenium(url: str):
     """Scrape text from a website using selenium
 
     Args:
@@ -134,7 +136,7 @@ def scrape_text_with_selenium(url: str) -> tuple[WebDriver, str]:
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--remote-debugging-port=9222")
         options.add_argument("--no-sandbox")
-        service = Service(executable_path=ChromeDriverManager().install())
+        service = Service(ChromeDriverManager(version="114.0.5735.90").install())
         driver = webdriver.Chrome(
             service=service, options=options
         )
@@ -159,7 +161,6 @@ def scrape_text_with_selenium(url: str) -> tuple[WebDriver, str]:
     text = "\n".join(chunk for chunk in chunks if chunk)
     return driver, text
 
-
 def get_text(soup):
     """Get the text from the soup
 
@@ -174,7 +175,6 @@ def get_text(soup):
     for element in soup.find_all(tags):  # Find all the <p> elements
         text += element.text + "\n\n"
     return text
-
 
 def scrape_links_with_selenium(driver: WebDriver, url: str) -> list[str]:
     """Scrape links from a website using selenium
@@ -195,7 +195,6 @@ def scrape_links_with_selenium(driver: WebDriver, url: str) -> list[str]:
 
     return format_hyperlinks(hyperlinks)
 
-
 def close_browser(driver: WebDriver) -> None:
     """Close the browser
 
@@ -207,8 +206,8 @@ def close_browser(driver: WebDriver) -> None:
     """
     driver.quit()
 
-
 def add_header(driver: WebDriver) -> None:
+
     """Add a header to the website
 
     Args:

@@ -105,7 +105,7 @@ def scroll_to_percentage(driver: WebDriver, ratio: float) -> None:
     """
     if ratio < 0 or ratio > 1:
         raise ValueError("Percentage should be between 0 and 1")
-    driver.execute_script(f"window.scrollTo(0, document.body.scrollHeight * {ratio});")
+    # driver.execute_script(f"window.scrollTo(0, document.body.scrollHeight * {ratio});")
 
 
 def create_message(chunk: str, question: str) -> Dict[str, str]:
